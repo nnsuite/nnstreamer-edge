@@ -221,6 +221,30 @@ nns_edge_custom_set_event_callback (nns_edge_custom_connection_h handle,
 }
 
 /**
+ * @brief Internal function to discovery devices of custom connection.
+ */
+int
+nns_edge_custom_discovery (nns_edge_custom_connection_h handle,
+    void *user_data)
+{
+  custom_connection_s *custom = (custom_connection_s *) handle;
+  nns_edge_custom_s *custom_h;
+  int ret;
+
+  if (!custom || !custom->instance)
+    return NNS_EDGE_ERROR_INVALID_PARAMETER;
+
+  custom_h = custom->instance;
+
+  ret = custom_h->nns_edge_custom_discovery (custom->priv, user_data);
+  if (NNS_EDGE_ERROR_NONE != ret) {
+    nns_edge_loge ("Failed to discovery devices of custom connection.");
+  }
+
+  return ret;
+}
+
+/**
  * @brief Internal function to connect custom connection.
  */
 int
